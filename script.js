@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'PSB': ['Sasa', 'Lurdinha', 'Eunice', 'Maria Luiza', 'Rafael Eletricista', 'Ricardo de Paulo de João Pio', 'Fagner', 'Waxley', 'Bruno do Bamba', 'Nego', 'Legenda'],
         'PT+PV': ['Aliete', 'Casio', 'Kito', 'Júlio dos Fernandes', 'Beto das Pacas', 'Mauro do São José', 'Fabiano', 'Rosa', 'Evaldo', 'Fabinho', 'Legenda'],
         'PRD': ['Felipe Silveira', 'Zé Olinto', 'Tarcisio de Messias', 'Candidato 4', 'Candidato 5', 'Candidato 6', 'Candidato 7', 'Candidato 8', 'Candidato 9', 'Candidato 10', 'Legenda'],
-        'PP': ['Candidato 1', 'Candidato 2', 'Candidato 3', 'Candidato 4', 'Candidato 5', 'Candidato 6', 'Candidato 7', 'Candidato 8', 'Candidato 9', 'Candidato 10', 'Legenda']
+        'PP': ['Candidato', 'Candidato 2', 'Candidato 3', 'Candidato 4', 'Candidato 5', 'Candidato 6', 'Candidato 7', 'Candidato 8', 'Candidato 9', 'Candidato 10', 'Legenda']
     };
 
     const votosCandidatos = {};
