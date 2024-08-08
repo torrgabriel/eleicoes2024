@@ -40,10 +40,11 @@ body {
 
 .partido input {
     width: 100%;
+    height: 40px; /* Altura fixa para todos os inputs */
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Inclui padding e borda no cálculo da largura e altura */
 }
 
 button {
