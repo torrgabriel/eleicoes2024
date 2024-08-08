@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', function () {
         'Avante': ['Marlon', 'Diego Diretor', 'Marcinho', 'Kaike', 'Sandra de Brandão', 'Sanger', 'Júlio César', 'Flavio Assistente Social', 'Tulinha', 'Diana', 'Legenda'],
         'PSB': ['Sasa', 'Lurdinha', 'Eunice', 'Maria Luiza', 'Rafael Eletricista', 'Ricardo de Paulo de João Pio', 'Fagner', 'Waxley', 'Bruno do Bamba', 'Nego', 'Legenda'],
         'PT+PV': ['Aliete', 'Casio', 'Kito', 'Júlio dos Fernandes', 'Beto das Pacas', 'Mauro do São José', 'Fabiano', 'Rosa', 'Evaldo', 'Fabinho', 'Legenda'],
-        'PRD': ['Felipe Silveira', 'Zé Olinto', 'Candidato 3', 'Candidato 4', 'Candidato 5', 'Candidato 6', 'Candidato 7', 'Candidato 8', 'Candidato 9', 'Candidato 10', 'Legenda']
+        'PRD': ['Felipe Silveira', 'Zé Olinto', 'Tarcisio de Messias', 'Candidato 4', 'Candidato 5', 'Candidato 6', 'Candidato 7', 'Candidato 8', 'Candidato 9', 'Candidato 10', 'Legenda'],
+        'PP': ['Candidato 1', 'Candidato 2', 'Candidato 3', 'Candidato 4', 'Candidato 5', 'Candidato 6', 'Candidato 7', 'Candidato 8', 'Candidato 9', 'Candidato 10', 'Legenda']
     };
 
     const votosCandidatos = {};
-
     const totalVagas = 9;
 
     function montarPartidos() {
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
             divPartido.className = 'partido';
             const h3 = document.createElement('h3');
             h3.textContent = partido;
-            divPartido.appendChild(h3); 
+            divPartido.appendChild(h3);
 
             partidosData[partido].forEach(candidato => {
                 const div = document.createElement('div');
@@ -67,9 +67,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const eleitos = {};
         Object.keys(cadeiras).forEach(partido => {
-            const candidatosOrdenados = Object.entries(votosCandidatos[partido])
-                                               .sort((a, b) => b[1] - a[1]) 
-                                               .map(pair => pair[0]);        
+            let candidatosOrdenados = Object.entries(votosCandidatos[partido])
+                                            .sort((a, b) => b[1] - a[1])
+                                            .map(pair => pair[0]);
+            
+            // Verifica e remove a Legenda se necessário antes de determinar os eleitos
+            if (votosCandidatos[partido]['Legenda'] >= votosCandidatos[partido][candidatosOrdenados[0]]) {
+                candidatosOrdenados = candidatosOrdenados.filter(candidato => candidato !== 'Legenda');
+            }
+
             eleitos[partido] = candidatosOrdenados.slice(0, cadeiras[partido]);
         });
 

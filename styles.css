@@ -77,4 +77,9 @@ button:hover {
     #partidos {
         grid-template-columns: 1fr;
     }
+
+    .partido input {
+        width: 100%; /* Garante que o input não ultrapasse o container */
+        box-sizing: border-box; /* Inclui padding e borda no cálculo da largura */
+    }
 }
