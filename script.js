@@ -49,6 +49,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 votos[partido] += votosCandidato;
                 votosCandidatos[partido][candidato] = votosCandidato;
             });
+            // Filtra a Legenda antes de calcular o total de votos válidos
+            if (votosCandidatos[partido]['Legenda'] >= Math.max(...Object.values(votosCandidatos[partido]))) {
+                votos[partido] -= votosCandidatos[partido]['Legenda'];
+            }
             totalVotosValidos += votos[partido];
         });
 
@@ -76,9 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                             .map(pair => pair[0]);
             
             // Remove a Legenda se necessário antes de determinar os eleitos
-            if (votosCandidatos[partido]['Legenda'] >= votosCandidatos[partido][candidatosOrdenados[0]]) {
-                candidatosOrdenados = candidatosOrdenados.filter(candidato => candidato !== 'Legenda');
-            }
+            candidatosOrdenados = candidatosOrdenados.filter(candidato => candidato !== 'Legenda');
 
             eleitos[partido] = candidatosOrdenados.slice(0, cadeiras[partido]);
         });
