@@ -3,10 +3,14 @@ document.addEventListener('DOMContentLoaded', function () {
         'PDT': ['Flavinho', 'Diego', 'Lulu', 'Juninho', 'Luiz', 'Madalena', 'Adirlene', 'Gladston', 'Camila de Tereza', 'Tcheco', 'Legenda'],
         'Avante': ['Marlon', 'Diego Diretor', 'Marcinho', 'Kaike', 'Sandra de Brandão', 'Sanger', 'Edinho', 'Flavio Assistente Social', 'Tulinha', 'Diana', 'Legenda'],
         'PSB': ['Sasa', 'Lurdinha', 'Eunice', 'Maria Luiza', 'Rafael Eletricista', 'Ricardo de Paulo de João Pio', 'Fagner', 'Waxley', 'Bruno do Bamba', 'Nego', 'Legenda'],
-        'PT+PV': ['Vaninha', 'Casio', 'Kito', 'Júlio dos Fernandes', 'Beto das Pacas', 'Mauro do São José', 'Vaninha', 'Rosa', 'Evaldo', 'Letícia', 'Legenda'],
+        'PT+PV': ['Vaninha do Bar', 'Casio', 'Kito', 'Júlio dos Fernandes', 'Beto das Pacas', 'Mauro do São José', 'Vaninha', 'Rosa', 'Evaldo', 'Letícia', 'Legenda'],
         'PRD': ['Felipe Silveira', 'Zé Olinto', 'Tarcisio de Messias', 'Adilson Passa 10', 'Sheila Psicologa', 'Leda Maria', 'Legenda'],
         'PP': ['Fabinho', 'Fabiano', 'Lobão', 'Preta Branca', 'Eleidiane', 'Legenda']
     };
+
+    Object.keys(partidosData).forEach(partido => {
+        partidosData[partido] = partidosData[partido].sort().filter(c => c !== 'Legenda').concat('Legenda');
+    });
 
     const votosCandidatos = {};
     const totalVagas = 9;
@@ -71,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                             .sort((a, b) => b[1] - a[1])
                                             .map(pair => pair[0]);
             
-            // Verifica e remove a Legenda se necessário antes de determinar os eleitos
+            // Remove a Legenda se necessário antes de determinar os eleitos
             if (votosCandidatos[partido]['Legenda'] >= votosCandidatos[partido][candidatosOrdenados[0]]) {
                 candidatosOrdenados = candidatosOrdenados.filter(candidato => candidato !== 'Legenda');
             }
