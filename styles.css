@@ -40,11 +40,11 @@ body {
 
 .partido input {
     width: 100%;
-    height: 40px; /* Altura fixa para todos os inputs */
+    height: 40px;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* Inclui padding e borda no cálculo da largura e altura */
+    box-sizing: border-box;
 }
 
 button {
@@ -80,7 +80,7 @@ button:hover {
     }
 
     .partido input {
-        width: 100%; /* Garante que o input não ultrapasse o container */
-        box-sizing: border-box; /* Inclui padding e borda no cálculo da largura */
+        width: 100%;
+        box-sizing: border-box;
     }
 }

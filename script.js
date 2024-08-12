@@ -46,13 +46,9 @@ document.addEventListener('DOMContentLoaded', function () {
             partidosData[partido].forEach(candidato => {
                 const inputId = `${partido}_${candidato.replace(/\s+/g, '')}`;
                 const votosCandidato = parseInt(document.getElementById(inputId).value, 10);
-                votos[partido] += votosCandidato;
                 votosCandidatos[partido][candidato] = votosCandidato;
+                votos[partido] += votosCandidato;
             });
-            // Filtra a Legenda antes de calcular o total de votos válidos
-            if (votosCandidatos[partido]['Legenda'] >= Math.max(...Object.values(votosCandidatos[partido]))) {
-                votos[partido] -= votosCandidatos[partido]['Legenda'];
-            }
             totalVotosValidos += votos[partido];
         });
 
@@ -77,10 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
         Object.keys(cadeiras).forEach(partido => {
             let candidatosOrdenados = Object.entries(votosCandidatos[partido])
                                             .sort((a, b) => b[1] - a[1])
-                                            .map(pair => pair[0]);
-            
-            // Remove a Legenda se necessário antes de determinar os eleitos
-            candidatosOrdenados = candidatosOrdenados.filter(candidato => candidato !== 'Legenda');
+                                            .map(pair => pair[0])
+                                            .filter(candidato => candidato !== 'Legenda'); // Exclui a Legenda dos elegíveis
 
             eleitos[partido] = candidatosOrdenados.slice(0, cadeiras[partido]);
         });
@@ -102,6 +96,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function zerarVotacao() {
+        Object.keys(partidosData).forEach(partido => {
+            partidosData[partido].forEach(candidato => {
+                const inputId = `${partido}_${candidato.replace(/\s+/g, '')}`;
+                document.getElementById(inputId).value = 0;
+            });
+        });
+        document.getElementById('resultados').innerHTML = '';  // Limpa os resultados anteriores
+    }
+
     montarPartidos();
-    document.querySelector('button').addEventListener('click', calcularResultados);
+    document.querySelector('button[onclick="calcularResultados()"]').addEventListener('click', calcularResultados);
+    document.querySelector('button[onclick="zerarVotacao()"]').addEventListener('click', zerarVotacao);
 });
