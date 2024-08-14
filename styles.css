@@ -66,6 +66,14 @@ button:hover {
     background-color: #218838;
 }
 
+#zerarVotacao {
+    background-color: #ff0000; /* Vermelho */
+}
+
+#zerarVotacao:hover {
+    background-color: #cc0000; /* Vermelho mais escuro */
+}
+
 #resultados {
     margin-top: 30px;
     padding: 20px;
