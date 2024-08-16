@@ -4,10 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
         'Avante': ['Marlon', 'Diego Diretor', 'Marcinho', 'Kaike', 'Sandra de Brandão', 'Sanger', 'Edinho', 'Flavio Assistente Social', 'Tulinha', 'Diana', 'Legenda'],
         'PSB': ['Sasa', 'Lurdinha', 'Eunice', 'Maria Luiza', 'Rafael Eletricista', 'Ricardo de Paulo de João Pio', 'Fagner', 'Waxley', 'Bruno do Bamba', 'Nego', 'Legenda'],
         'PT+PV': ['Vaninha do Bar', 'Casio', 'Kito', 'Júlio dos Fernandes', 'Beto das Pacas', 'Mauro do São José', 'Vaninha', 'Rosa', 'Evaldo', 'Letícia', 'Legenda'],
-        'PRD': ['Felipe Silveira', 'Zé Olinto', 'Tarcisio de Messias', 'Adilson Passa 10', 'Sheila Psicologa', 'Leda Maria', 'Legenda'],
-        'PP': ['Fabinho', 'Fabiano', 'Lobão', 'Preta Branca', 'Eleidiane', 'Legenda']
+        'PRD': ['Felipe Silveira', 'Tarcisio de Messias', 'Sheila Psicologa', 'Legenda'],
+        'PP': ['Fabinho', 'Fabiano', 'Lobão', 'Preta Branca', 'Eleidiane', 'Legenda'],
+        'Solidariedade': ['Vinícius Diretor', 'Neuzinha de Tatão', 'Legenda']
     };
 
+    // Sort candidates in each party except 'Legenda'
     Object.keys(partidosData).forEach(partido => {
         partidosData[partido] = partidosData[partido].sort().filter(c => c !== 'Legenda').concat('Legenda');
     });
@@ -15,28 +17,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const votosCandidatos = {};
     const totalVagas = 9;
 
+    // Function to mount parties
     function montarPartidos() {
         const containerPartidos = document.getElementById('partidos');
-        Object.keys(partidosData).forEach(partido => {
-            const divPartido = document.createElement('div');
-            divPartido.className = 'partido';
-            const h3 = document.createElement('h3');
-            h3.textContent = partido;
-            divPartido.appendChild(h3);
+        const order = ['PDT', 'Avante', 'PSB', 'PT+PV', 'PP', 'PRD', 'Solidariedade']; // Custom order
 
-            partidosData[partido].forEach(candidato => {
-                const div = document.createElement('div');
-                const inputId = `${partido}_${candidato.replace(/\s+/g, '')}`;
-                div.innerHTML = `<label>${candidato}: <input type='number' id='${inputId}' min='0' value='0'></label>`;
-                divPartido.appendChild(div);
-                if (!votosCandidatos[partido]) votosCandidatos[partido] = {};
-                votosCandidatos[partido][candidato] = 0;
-            });
+        order.forEach(partido => {
+            if (partidosData[partido]) {
+                const divPartido = document.createElement('div');
+                divPartido.className = 'partido';
+                const h3 = document.createElement('h3');
+                h3.textContent = partido;
+                divPartido.appendChild(h3);
 
-            containerPartidos.appendChild(divPartido);
+                partidosData[partido].forEach(candidato => {
+                    const div = document.createElement('div');
+                    const inputId = `${partido}_${candidato.replace(/\s+/g, '')}`;
+                    div.innerHTML = `<label>${candidato}: <input type='number' id='${inputId}' min='0' value='0'></label>`;
+                    divPartido.appendChild(div);
+                    if (!votosCandidatos[partido]) votosCandidatos[partido] = {};
+                    votosCandidatos[partido][candidato] = 0;
+                });
+
+                containerPartidos.appendChild(divPartido);
+            }
         });
     }
 
+    // Function to calculate election results
     function calcularResultados() {
         let totalVotosValidos = 0;
         const votos = {};
@@ -74,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let candidatosOrdenados = Object.entries(votosCandidatos[partido])
                                             .sort((a, b) => b[1] - a[1])
                                             .map(pair => pair[0])
-                                            .filter(candidato => candidato !== 'Legenda'); // Exclui a Legenda dos elegíveis
+                                            .filter(candidato => candidato !== 'Legenda');
 
             eleitos[partido] = candidatosOrdenados.slice(0, cadeiras[partido]);
         });
@@ -96,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Function to reset votes
     function zerarVotacao() {
         Object.keys(partidosData).forEach(partido => {
             partidosData[partido].forEach(candidato => {
@@ -103,9 +112,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById(inputId).value = 0;
             });
         });
-        document.getElementById('resultados').innerHTML = '';  // Limpa os resultados anteriores
+        document.getElementById('resultados').innerHTML = '';
     }
 
+    // Attach event listeners
     montarPartidos();
     document.querySelector('button[onclick="calcularResultados()"]').addEventListener('click', calcularResultados);
     document.querySelector('button[onclick="zerarVotacao()"]').addEventListener('click', zerarVotacao);
