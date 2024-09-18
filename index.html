@@ -1,41 +1,67 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado das Eleições</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simulador de Votação</title>
+    <link href="https://fonts.googleapis.com/css?family=Heebo:400,500,700|Fira+Sans:600" rel="stylesheet">
+    <link rel="stylesheet" href="dist/css/style.css">
+    <script src="https://unpkg.com/animejs@2.2.0/anime.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
 </head>
-<body>
-    <div id="partidos"></div>
-    <button onclick="calcularResultados()">Calcular</button>
-    <button id="zerarVotacao" onclick="zerarVotacao()">Zerar Votação</button>
-    <div id="resultados"></div>
-    <div class="anuncios">
-        <p>Se você gostou do simulador e quer fazer um para a sua cidade, conheça nossos planos:</p>
-        <div class="plano">
-            <p>Para cidades com até 50 candidatos: R$47,90</p>
-            <button onclick="window.location.href='https://mpago.la/24uaPEC'">Pagar Agora</button>
-        </div>
-        <div class="plano">
-            <p>Para cidades de 51 a 100 candidatos: R$97,90</p>
-            <button onclick="window.location.href='https://mpago.la/1mYsRgu'">Pagar Agora</button>
-        </div>
-        <div class="plano">
-            <p>Para cidades de 101 a 200 candidatos: R$147,90</p>
-            <button onclick="window.location.href='https://mpago.la/1hKxDDL'">Pagar Agora</button>
-        </div>
-        <div class="plano">
-            <p>Para cidades de 201 a 500 candidatos: R$247,90</p>
-            <button onclick="window.location.href='https://mpago.la/2FMXirV'">Pagar Agora</button>
-        </div>
-        <div class="plano">
-            <p>Para cidades acima de 500 candidatos: R$497,90</p>
-            <button onclick="window.location.href='https://mpago.la/2TkyAck'">Pagar Agora</button>
-        </div>
-        <p>Após concluir o pagamento, envie via WhatsApp o comprovante e o nome da cidade:</p>
-        <a href="https://wa.me/5531995956373?text=Segue%20o%20comprovante%20de%20pagamento%20e%20a%20cidade">Link do WhatsApp</a>
+<body class="is-boxed has-animations">
+    <div class="body-wrap boxed-container">
+        <header class="site-header">
+            <!-- O código do cabeçalho permanece inalterado -->
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-inner">
+                        <div class="hero-copy">
+                            <h1 class="hero-title mt-0">Continue Usando o Simulador de Votação!</h1>
+                            <p class="hero-paragraph">O período gratuito acabou, mas você pode continuar simulando os resultados das eleições de São Gonçalo do Rio Abaixo por apenas <strong>R$39,90</strong>.</p>
+
+                            <h2>Benefícios:</h2>
+                            <ul>
+                                <li><strong>Projeção de resultados</strong> com base em dados reais.</li>
+                                <li><strong>Interface simples e intuitiva.</strong></li>
+                                <li><strong>Acesso imediato após a compra.</strong></li>
+                            </ul>
+
+                            <!-- Botão de compra -->
+                            <div class="hero-form field field-grouped">
+                                <div class="control">
+                                    <a class="button button-primary button-block" href="https://mpago.la/2SCU24u" target="_blank">
+                                        Comprar o Simulador por R$39,90
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Botão de envio de comprovante via WhatsApp -->
+                            <div class="hero-form field field-grouped">
+                                <div class="control">
+                                    <a class="button button-secondary button-block" href="https://wa.me/5531995956373?text=Segue%20o%20comprovante%20de%20pagamento%20do%20simulador%20de%20vota%C3%A7%C3%A3o%20de%20vereadores%20de%20S%C3%A3o%20Gon%C3%A7alo%20do%20Rio%20Abaixo%20-%20MG." target="_blank">
+                                        Enviar Comprovante via WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-illustration">
+                            <!-- O código da ilustração permanece inalterado -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <!-- O código do rodapé permanece inalterado -->
+        </footer>
     </div>
-    <script src="script.js"></script>
+
+    <script src="dist/js/main.min.js"></script>
 </body>
 </html>
