@@ -9,37 +9,32 @@ document.addEventListener('DOMContentLoaded', function () {
         'Solidariedade': ['Vinícius Diretor', 'Neuzinha de Tatão', 'Legenda']
     };
 
+    // Sort candidates in each party except 'Legenda'
+    Object.keys(partidosData).forEach(partido => {
+        partidosData[partido] = partidosData[partido].sort().filter(c => c !== 'Legenda').concat('Legenda');
+    });
+
     const votosCandidatos = {};
     const totalVagas = 9;
 
+    // Function to mount parties
     function montarPartidos() {
         const containerPartidos = document.getElementById('partidos');
-        containerPartidos.innerHTML = ''; // Limpar o conteúdo para atualização
-        const order = ['PDT', 'Avante', 'PSB', 'PT+PV', 'PP', 'PRD', 'Solidariedade']; // Ordem personalizada
+        const order = ['PDT', 'Avante', 'PSB', 'PT+PV', 'PP', 'PRD', 'Solidariedade']; // Custom order
 
         order.forEach(partido => {
             if (partidosData[partido]) {
                 const divPartido = document.createElement('div');
                 divPartido.className = 'partido';
-                divPartido.setAttribute('data-partido', partido);
-                divPartido.ondragover = allowDrop;
-                divPartido.ondrop = drop;
-
                 const h3 = document.createElement('h3');
                 h3.textContent = partido;
                 divPartido.appendChild(h3);
 
                 partidosData[partido].forEach(candidato => {
                     const div = document.createElement('div');
-                    div.className = 'candidato';
-                    div.draggable = true;
-                    div.ondragstart = drag;
-                    div.id = `${partido}_${candidato.replace(/\s+/g, '')}`;
-                    div.setAttribute('data-candidato', candidato);
-                    div.setAttribute('data-partido', partido);
-                    div.innerHTML = `<label>${candidato}: <input type='number' min='0' value='0'></label>`;
+                    const inputId = `${partido}_${candidato.replace(/\s+/g, '')}`;
+                    div.innerHTML = `<label>${candidato}: <input type='number' id='${inputId}' min='0' value='0'></label>`;
                     divPartido.appendChild(div);
-
                     if (!votosCandidatos[partido]) votosCandidatos[partido] = {};
                     votosCandidatos[partido][candidato] = 0;
                 });
@@ -49,41 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function allowDrop(ev) {
-        ev.preventDefault();
-    }
-
-    function drag(ev) {
-        ev.dataTransfer.setData("text", ev.target.id);
-    }
-
-    function drop(ev) {
-        ev.preventDefault();
-        const candidatoId = ev.dataTransfer.getData("text");
-        const candidatoElement = document.getElementById(candidatoId);
-        const novoPartido = ev.target.closest('.partido').getAttribute('data-partido');
-
-        // Atualiza o partido do candidato no DOM
-        candidatoElement.setAttribute('data-partido', novoPartido);
-        candidatoElement.id = `${novoPartido}_${candidatoElement.getAttribute('data-candidato').replace(/\s+/g, '')}`;
-
-        // Adiciona o candidato ao novo partido
-        ev.target.closest('.partido').appendChild(candidatoElement);
-
-        // Atualiza o objeto de dados
-        atualizarPartidosData();
-    }
-
-    function atualizarPartidosData() {
-        Object.keys(partidosData).forEach(partido => partidosData[partido] = []);
-        document.querySelectorAll('.candidato').forEach(candidatoElement => {
-            const partido = candidatoElement.getAttribute('data-partido');
-            const candidato = candidatoElement.getAttribute('data-candidato');
-            partidosData[partido].push(candidato);
-        });
-    }
-
-    // Função para calcular os resultados da eleição
+    // Function to calculate election results
     function calcularResultados() {
         let totalVotosValidos = 0;
         const votos = {};
@@ -92,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
             votos[partido] = 0;
             partidosData[partido].forEach(candidato => {
                 const inputId = `${partido}_${candidato.replace(/\s+/g, '')}`;
-                const votosCandidato = parseInt(document.getElementById(inputId).querySelector('input').value, 10);
+                const votosCandidato = parseInt(document.getElementById(inputId).value, 10);
                 votosCandidatos[partido][candidato] = votosCandidato;
                 votos[partido] += votosCandidato;
             });
@@ -109,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         while (cadeirasRestantes > 0) {
-            let partidoParaReceberCadeira = Object.keys(votos).reduce((a, b) =>
+            let partidoParaReceberCadeira = Object.keys(votos).reduce((a, b) => 
                 (votos[a] / (cadeiras[a] + 1)) > (votos[b] / (cadeiras[b] + 1)) ? a : b
             );
             cadeiras[partidoParaReceberCadeira]++;
@@ -119,9 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const eleitos = {};
         Object.keys(cadeiras).forEach(partido => {
             let candidatosOrdenados = Object.entries(votosCandidatos[partido])
-                .sort((a, b) => b[1] - a[1])
-                .map(pair => pair[0])
-                .filter(candidato => candidato !== 'Legenda');
+                                            .sort((a, b) => b[1] - a[1])
+                                            .map(pair => pair[0])
+                                            .filter(candidato => candidato !== 'Legenda');
 
             eleitos[partido] = candidatosOrdenados.slice(0, cadeiras[partido]);
         });
@@ -143,18 +104,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Função para zerar a votação
+    // Function to reset votes
     function zerarVotacao() {
         Object.keys(partidosData).forEach(partido => {
             partidosData[partido].forEach(candidato => {
                 const inputId = `${partido}_${candidato.replace(/\s+/g, '')}`;
-                document.getElementById(inputId).querySelector('input').value = 0;
+                document.getElementById(inputId).value = 0;
             });
         });
         document.getElementById('resultados').innerHTML = '';
     }
 
-    // Adicionar ouvintes de eventos
+    // Attach event listeners
     montarPartidos();
     document.querySelector('button[onclick="calcularResultados()"]').addEventListener('click', calcularResultados);
     document.querySelector('button[onclick="zerarVotacao()"]').addEventListener('click', zerarVotacao);
